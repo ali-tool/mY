@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PlagueArchive | Epidemics, History & Research</title>
+    <meta name="description" content="Explore curated articles, historical records, scientific explanations, and outbreak timelines from plague research and public health history." />
+    <style>
+        :root {
+            --bg: #07111f;
+            --bg-soft: #0f1d2f;
+            --panel: #122338;
+            --panel-2: #162d45;
+            --line: rgba(148, 163, 184, 0.22);
+            --text: #e5eefb;
+            --muted: #a7b6c9;
+            --accent: #67e8f9;
+            --accent-2: #818cf8;
+            --gold: #fbbf24;
+            --danger: #f87171;
+            --success: #34d399;
+            --shadow: 0 14px 36px rgba(8, 15, 30, 0.35);
+        }
+
+        * { box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, #0b1727 100%);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .container {
+            width: min(1200px, calc(100% - 2rem));
+            margin: 0 auto;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(7, 17, 31, 0.86);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 76px;
+            gap: 1rem;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.3rem;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .search {
+            background: rgba(15, 29, 47, 0.9);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 0.7rem 0.9rem;
+            width: min(260px, 45vw);
+            color: var(--text);
+            outline: none;
+        }
+
+        .hero {
+            padding: 5rem 0 3rem;
+            background: radial-gradient(circle at top, rgba(102, 232, 249, 0.18), transparent 30%),
+                        linear-gradient(180deg, var(--panel-2) 0%, var(--bg-soft) 100%);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .hero-inner {
+            display: grid;
+            grid-template-columns: 1.4fr 0.9fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            color: var(--accent);
+            background: rgba(103, 232, 249, 0.08);
+            border: 1px solid rgba(103, 232, 249, 0.2);
+            border-radius: 999px;
+            padding: 0.45rem 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 5rem);
+            line-height: 1.04;
+            margin: 0 0 1rem;
+            letter-spacing: -0.05em;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            color: var(--muted);
+            font-size: 1.08rem;
+            max-width: 620px;
+            margin-bottom: 1.6rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.9rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            border: 1px solid transparent;
+            transition: 0.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #04131f;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            border-color: var(--line);
+            background: rgba(148, 163, 184, 0.04);
+            color: var(--text);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat {
+            background: rgba(18, 35, 56, 0.8);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 1rem;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 1.7rem;
+            color: var(--accent);
+            margin-bottom: 0.2rem;
+        }
+
+        .stat span {
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
+        .feature-panel {
+            background: linear-gradient(180deg, rgba(18, 35, 56, 0.94), rgba(15, 29, 47, 0.98));
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 1.2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .feature-image {
+            height: 260px;
+            border-radius: 14px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, rgba(103, 232, 249, 0.18), rgba(129, 140, 248, 0.15)),
+                        url('https://images.unsplash.com/photo-1532187643603-ba119ca4109e?auto=format&fit=crop&w=900&q=80') center/cover;
+        }
+
+        .feature-panel h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.4rem;
+        }
+
+        .feature-panel p {
+            margin: 0 0 1rem;
+            color: var(--muted);
+        }
+
+        .meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--muted);
+            font-size: 0.8rem;
+            gap: 1rem;
+        }
+
+        main {
+            padding: 3rem 0;
+        }
+
+        section {
+            margin-bottom: 3rem;
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-head h2 {
+            margin: 0;
+            font-size: clamp(1.8rem, 3vw, 2.6rem);
+        }
+
+        .section-head p {
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .category-card {
+            background: rgba(18, 35, 56, 0.8);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 1.2rem;
+        }
+
+        .category-card .icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            background: rgba(103, 232, 249, 0.1);
+            color: var(--accent);
+        }
+
+        .category-card h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.15rem;
+        }
+
+        .category-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.94rem;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: rgba(18, 35, 56, 0.8);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(103, 232, 249, 0.6);
+        }
+
+        .thumb {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-body {
+            padding: 1.2rem 1.1rem 1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            margin-bottom: 0.7rem;
+            padding: 0.28rem 0.65rem;
+            border-radius: 999px;
+            font-size: 0.73rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            background: rgba(103, 232, 249, 0.08);
+            color: var(--accent);
+            border: 1px solid rgba(103, 232, 249, 0.1);
+        }
+
+        .card h3 {
+            margin: 0 0 0.65rem;
+            font-size: 1.2rem;
+            line-height: 1.35;
+        }
+
+        .card p {
+            margin: 0 0 1rem;
+            color: var(--muted);
+            font-size: 0.94rem;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid var(--line);
+            font-size: 0.76rem;
+            color: var(--muted);
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .timeline-card {
+            background: linear-gradient(180deg, rgba(18, 35, 56, 0.82), rgba(11, 23, 39, 0.9));
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 1.3rem;
+        }
+
+        .timeline-card .year {
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-card h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .timeline-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .newsletter {
+            background: linear-gradient(135deg, rgba(19, 54, 73, 0.95), rgba(18, 35, 56, 0.95));
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .newsletter h2 {
+            margin: 0 0 0.4rem;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+        }
+
+        .newsletter p {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.8rem;
+            width: min(500px, 100%);
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            min-width: 0;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 0.95rem 1rem;
+            background: rgba(7, 17, 31, 0.8);
+            color: var(--text);
+            outline: none;
+        }
+
+        footer {
+            background: rgba(10, 18, 30, 0.9);
+            border-top: 1px solid var(--line);
+            padding: 1.5rem 0 2rem;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+            color: var(--muted);
+        }
+
+        @media (max-width: 980px) {
+            .hero-inner,
+            .newsletter,
+            .categories,
+            .articles-grid,
+            .timeline {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .hero-inner,
+            .newsletter {
+                display: grid;
+            }
+
+            .categories,
+            .articles-grid,
+            .timeline {
+                display: grid;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .nav {
+                flex-wrap: wrap;
+                padding: 0.8rem 0;
+            }
+
+            .nav-links {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .search {
+                width: 100%;
+            }
+
+            .stats,
+            .categories,
+            .articles-grid,
+            .timeline {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav">
+            <a href="#" class="brand">PlagueArchive</a>
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="index.html">Home</a>
+                <a href="articles.html">Articles</a>
+                <a href="history.html">History</a>
+                <a href="research.html">Research</a>
+                <a href="detail.html">Feature</a>
+                <a href="#newsletter">Newsletter</a>
+            </nav>
+            <input class="search" type="search" placeholder="Search articles..." aria-label="Search" />
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-inner">
+            <div>
+                <span class="eyebrow">Global Health Archive</span>
+                <h1>Tracking the story of <span class="gradient-text">plague, pandemics, and public health</span></h1>
+                <p>Discover historical records, scientific findings, public-health lessons, and outbreak timelines from the world’s most important plague events.</p>
+                <div class="hero-actions">
+                    <a href="#latest" class="btn btn-primary">Read the latest</a>
+                    <a href="#research" class="btn btn-secondary">Explore research</a>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <strong>120+</strong>
+                        <span>archived reports</span>
+                    </div>
+                    <div class="stat">
+                        <strong>18</strong>
+                        <span>regions covered</span>
+                    </div>
+                    <div class="stat">
+                        <strong>4</strong>
+                        <span>major eras</span>
+                    </div>
+                    <div class="stat">
+                        <strong>30K</strong>
+                        <span>monthly readers</span>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="feature-panel" aria-label="Featured story">
+                <div class="feature-image" role="img" aria-label="Historical plague illustration"></div>
+                <h3>How medieval cities learned to isolate disease</h3>
+                <p>From quarantine laws to port closures, the early response to plague shaped modern public-health strategy.</p>
+                <div class="meta-row">
+                    <span>Feature story</span>
+                    <span>8 min read</span>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <main>
+        <div class="container">
+            <section id="collections">
+                <div class="section-head">
+                    <h2>Explore by collection</h2>
+                    <p>Focused research clusters for scholars and curious readers.</p>
+                </div>
+
+                <div class="categories">
+                    <article class="category-card">
+                        <div class="icon">🧬</div>
+                        <h3>Microbiology</h3>
+                        <p>Genetics, vectors, and the bacterial evolution behind plague transmission.</p>
+                    </article>
+                    <article class="category-card">
+                        <div class="icon">🏛️</div>
+                        <h3>Medieval history</h3>
+                        <p>Life, law, and social changes in cities during pandemic outbreaks.</p>
+                    </article>
+                    <article class="category-card">
+                        <div class="icon">💉</div>
+                        <h3>Public health</h3>
+                        <p>Lessons from quarantine, sanitation, and emergency disease response.</p>
+                    </article>
+                    <article class="category-card">
+                        <div class="icon">📊</div>
+                        <h3>Data analysis</h3>
+                        <p>Maps, disease models, mortality trends, and outbreak comparisons.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section id="latest">
+                <div class="section-head">
+                    <h2>Latest article archive</h2>
+                    <p>Fresh research and historical overviews from the field.</p>
+                </div>
+
+                <div class="articles-grid">
+                    <article class="card">
+                        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=900&q=80');"></div>
+                        <div class="card-body">
+                            <span class="tag">History</span>
+                            <h3>How quarantine shaped early urban disease policy</h3>
+                            <p>Ports, market control, and civic edicts helped cities postpone catastrophe on a dangerous frontier.</p>
+                            <div class="card-footer"><span>5 min read</span><span>Oct 2026</span></div>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=80');"></div>
+                        <div class="card-body">
+                            <span class="tag">Science</span>
+                            <h3>Yersinia pestis and the microbial puzzle of transmission</h3>
+                            <p>From flea-borne pathways to host adaptation, modern genome studies continue to revise older assumptions.</p>
+                            <div class="card-footer"><span>7 min read</span><span>Oct 2026</span></div>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=900&q=80');"></div>
+                        <div class="card-body">
+                            <span class="tag">Medicine</span>
+                            <h3>Why antibiotics changed the modern plague risk</h3>
+                            <p>Today’s treatment strategies rely on rapid identification, targeted therapy, and early intervention.</p>
+                            <div class="card-footer"><span>4 min read</span><span>Sep 2026</span></div>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80');"></div>
+                        <div class="card-body">
+                            <span class="tag">Analysis</span>
+                            <h3>The economic tremors left by the Black Death</h3>
+                            <p>Labor shortages, wage restructuring, and demographic collapse redesigned the medieval economy.</p>
+                            <div class="card-footer"><span>8 min read</span><span>Sep 2026</span></div>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1516321165247-4aa89a48be28?auto=format&fit=crop&w=900&q=80');"></div>
+                        <div class="card-body">
+                            <span class="tag">Archives</span>
+                            <h3>Plague doctors, masks, and the myths of the era</h3>
+                            <p>What was practical, symbolic, and exaggerated in the visual language of early epidemic care.</p>
+                            <div class="card-footer"><span>6 min read</span><span>Sep 2026</span></div>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=900&q=80');"></div>
+                        <div class="card-body">
+                            <span class="tag">Timeline</span>
+                            <h3>The three major plague waves in global history</h3>
+                            <p>Comparing the Justinianic outbreak, Black Death, and modern plague events across continents.</p>
+                            <div class="card-footer"><span>9 min read</span><span>Aug 2026</span></div>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=80');"></div>
+                        <div class="card-body">
+                            <span class="tag">Public health</span>
+                            <h3>Lessons from outbreak response in crowded ports</h3>
+                            <p>Isolation, inspection, and surveillance continue to echo in modern border health strategy.</p>
+                            <div class="card-footer"><span>5 min read</span><span>Aug 2026</span></div>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=900&q=80');"></div>
+                        <div class="card-body">
+                            <span class="tag">Maps</span>
+                            <h3>Mapping plague corridors across the Silk Road</h3>
+                            <p>Trade routes, caravan movement, and port networks accelerated the spread of infection.</p>
+                            <div class="card-footer"><span>6 min read</span><span>Aug 2026</span></div>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=900&q=80');"></div>
+                        <div class="card-body">
+                            <span class="tag">Social history</span>
+                            <h3>How fear, rumor, and ritual shaped community response</h3>
+                            <p>Belief systems and social memory often influenced how people interpreted outbreaks in real time.</p>
+                            <div class="card-footer"><span>7 min read</span><span>Jul 2026</span></div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section id="history">
+                <div class="section-head">
+                    <h2>Historical timeline</h2>
+                    <p>Key moments across the long history of plague outbreaks.</p>
+                </div>
+
+                <div class="timeline">
+                    <article class="timeline-card">
+                        <div class="year">541</div>
+                        <h3>Justinianic plague</h3>
+                        <p>One of the earliest recorded pandemics reshaped imperial Mediterranean trade and governance.</p>
+                    </article>
+                    <article class="timeline-card">
+                        <div class="year">1347</div>
+                        <h3>Black Death</h3>
+                        <p>European population collapse and labor shift transformed social and political structures.</p>
+                    </article>
+                    <article class="timeline-card">
+                        <div class="year">1894</div>
+                        <h3>Third pandemic</h3>
+                        <p>Modern scientific study began to link plague with rodent reservoirs and flea transmission.</p>
+                    </article>
+                    <article class="timeline-card">
+                        <div class="year">Today</div>
+                        <h3>Modern surveillance</h3>
+                        <p>Global monitoring, rapid antibiotics, and data systems reduce the threat of major outbreaks.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section id="research">
+                <div class="section-head">
+                    <h2>Research highlights</h2>
+                    <p>Recent scholarship and field reports summarised for quick reading.</p>
+                </div>
+
+                <div class="articles-grid">
+                    <article class="card">
+                        <div class="card-body">
+                            <span class="tag">Research</span>
+                            <h3>Genetic signatures reveal movement patterns in ancient plague strains</h3>
+                            <p>Researchers compare DNA traces to understand how disease spread across trade networks and borders.</p>
+                            <div class="card-footer"><span>6 min read</span><span>Research brief</span></div>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <div class="card-body">
+                            <span class="tag">Field notes</span>
+                            <h3>Urban sanitation and quarantine after major medieval outbreaks</h3>
+                            <p>Public-health infrastructure responded to fear and infection with new rules that outlived the crisis.</p>
+                            <div class="card-footer"><span>5 min read</span><span>Archive</span></div>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <div class="card-body">
+                            <span class="tag">Policy</span>
+                            <h3>What modern governments can learn from historical epidemic controls</h3>
+                            <p>Short-term closures, public messaging, and rapid reporting remain practical tools in crisis response.</p>
+                            <div class="card-footer"><span>7 min read</span><span>Report</span></div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section id="newsletter" class="newsletter">
+                <div>
+                    <h2>Subscribe for weekly crisis updates</h2>
+                    <p>Get the latest outbreak analysis, primary source summaries, and historical essays in one brief digest.</p>
+                </div>
+                <form class="newsletter-form" action="#" method="post">
+                    <input type="email" placeholder="Your email address" aria-label="Email address" />
+                    <button class="btn btn-primary" type="submit">Join now</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-inner">
+            <span>© 2026 PlagueArchive</span>
+            <span>Historical inquiry • public health • scientific context</span>
+        </div>
+    </footer>
+    <script src="https://pl31573195.profitableratecpmnetwork.com/56/d4/ab/56d4aba083e5a6e74524e1023a875dc7.js"></script>
+    <script src="https://pl31573196.profitableratecpmnetwork.com/3b/c2/ff/3bc2ff2865d8119ceaeb2765a4e54592.js"></script>
+</body>
+</html>
